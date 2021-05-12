@@ -1,29 +1,17 @@
-public class Main {
+import java.util.Random;
+import java.util.Scanner;
 
-    public static void printMatrix(Integer[][] matrix) {
-        for(int i = 0; i < matrix.length; i++) {
-            for(int j = 0; j < matrix[i].length; j++) {
-                System.out.print(matrix[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+public class Main {
 
     public static void main(String[] args) {
 
-        Integer[][] matrix = new Integer[][] {
-            {2, 4, 6, 8},
-            {1, 2, 3, 4},
-            {2, 4, 8, 16},
-            {3, 6, 9, 12}
-        };
+        Scanner sc = new Scanner(System.in); 
+        System.out.print("Numero de Lebres: ");
+        Integer amountOfThreads = sc.nextInt();
 
-        System.out.println("My matrix:");
-        printMatrix(matrix);
-
-        Thread pool[] = new MyThread[matrix.length];
-        for (int i = 0; i < matrix.length; i++) {
-            pool[i] = new MyThread(i, matrix);
+        Thread pool[] = new Lebre[amountOfThreads];
+        for (int i = 0; i < amountOfThreads; i++) {
+            pool[i] = new Lebre(i);
             pool[i].start();
         }
 
@@ -31,30 +19,24 @@ public class Main {
 
 }
 
-class MyThread extends Thread {
+class Lebre extends Thread {
 
     private Integer id;
-    private Integer[][] matrix;
+    private Integer jump;
+    private static Random randJump = new Random();
 
-    public MyThread(Integer id, Integer[][] matrix) {
+    public Lebre(Integer id) {
         this.id = id;
-        this.matrix = matrix;
-    }
-
-    public void setMatrix(Integer[][] matrix) {
-        this.matrix = matrix;
-    }
-
-    private Integer sumMatrixLine() {
-        Integer sum = 0;
-        for(int i = 0; i < matrix[id].length; i++) {
-            sum += matrix[id][i];
-        }
-        return sum;
+        jump = randJump.nextInt() % 20;
+        jump = jump < 0 ? -jump : jump;
     }
 
     public void run() {
-        System.out.println("My thread name is: " + id + " sum: " + sumMatrixLine());
+        try {
+            Thread.sleep(jump * 100);
+        } catch(Exception e) { }
+
+        System.out.println("Lebre: " + id + " pulo: " + jump);
     }
 
 }
