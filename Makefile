@@ -1,8 +1,8 @@
 JAVAC = docker run --rm -v "${PWD}":/usr/src/myapp -w /usr/src/myapp openjdk javac
-RUN_COMMAND = docker run --rm -v "${PWD}":/usr/src/myapp -w /usr/src/myapp openjdk java
+RUN_COMMAND = docker run -it --rm -v "${PWD}":/usr/src/myapp -w /usr/src/myapp openjdk java
 JAVA_SOURCES = $(wildcard *.java)
 MAIN_CLASS = Main
-OBJ = Main.class MyThread.class
+OBJ = Main.class *.class
 
 all: Main.class
 
